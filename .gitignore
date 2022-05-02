@@ -2,6 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
+**/migrations/**
+**/tests/**
+geckodriver.log
+**/__pycache__/**
 
 # C extensions
 *.so
