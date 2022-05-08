@@ -6,7 +6,7 @@ __pycache__/
 **/tests/**
 geckodriver.log
 **/__pycache__/**
-
+.env
 # C extensions
 *.so
 
