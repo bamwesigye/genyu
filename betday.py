@@ -34,8 +34,13 @@ for match in matches:
     event_time = datetime.strptime(event[0]+' '+ str(datetime.strftime(datetime.now(),'%Y')),'%H:%M %p %a %d/%m %Y')
     print(event[5])
     print(event_time)
-    conn.execute("INSERT INTO events (event_link, competition, event_time, home_team, away_team, home_odds, draw_odds, away_odds) VALUES (?,?,?,?,?,?,?,?)",(event_link, event[3], event_time, event[1], event[2], event[5], event[7],event[9]))
-    conn.commit()
+    try:
+        conn.execute("INSERT INTO events (event_link, competition, event_time, home_team, away_team, home_odds, draw_odds, away_odds) VALUES (?,?,?,?,?,?,?,?)",(event_link, event[3], event_time, event[1], event[2], event[5], event[7],event[9]))
+        conn.commit()
+    except:
+        print("Error")
+        conn.execute("UPDATE events SET competition = ?, event_time = ?, home_team = ?, away_team = ?, home_odds = ?, draw_odds = ?, away_odds = ? WHERE event_link = ?",(event[3], event_time, event[1], event[2], event[5], event[7],event[9], event_link))
+        conn.commit()
 
 conn.close
     

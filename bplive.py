@@ -1,5 +1,4 @@
 from datetime import datetime
-from os import link
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
