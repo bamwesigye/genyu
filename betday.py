@@ -1,31 +1,32 @@
 from datetime import datetime
-import time
+import time, sqlite3
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.webdriver.common.by import By
 from decouple import config
-import sqlite3
+
+
+options = webdriver.ChromeOptions()
+options.headless = False
+options.add_argument('--no-sandbox')
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 
 conn = sqlite3.connect('betpawa.db')
 print("Opened database successfully")
 
 
-driver = webdriver.Chrome(ChromeDriverManager().install()) 
 driver.maximize_window()
-# driver.get("https://www.betpawa.ug")
-# driver.find_element(by=By.CSS_SELECTOR, value='a[href="/login"]').click()
-# time.sleep(5)
-# driver.find_element(by=By.CSS_SELECTOR, value='#login-form-phoneNumber').send_keys(config('BETPAWA_USERNAME'))
-# driver.find_element(by=By.CSS_SELECTOR, value='#login-form-password').send_keys(config('BETPAWA_PASSWORD'))
-# time.sleep(1)
-# driver.find_element(by=By.CSS_SELECTOR, value='input[value="Log In"]').click()
-# time.sleep(10)
+driver.get("https://www.betpawa.ug")
+driver.find_element(by=By.CSS_SELECTOR, value='a[href="/login"]').click()
+time.sleep(2)
+driver.find_element(by=By.CSS_SELECTOR, value='#login-form-phoneNumber').send_keys(config('BETPAWA_USERNAME'))
+driver.find_element(by=By.CSS_SELECTOR, value='#login-form-password').send_keys(config('BETPAWA_PASSWORD'))
+time.sleep(1)
+driver.find_element(by=By.CSS_SELECTOR, value='input[value="Log In"]').click()
+time.sleep(5)
 driver.get('https://www.betpawa.ug/popular')
-time.sleep(10)
+time.sleep(2)
 matches = driver.find_elements(by=By.CLASS_NAME, value='events-container.prematch')
 for match in matches:
     event = match.text.split('\n')
