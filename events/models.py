@@ -168,3 +168,21 @@ class EventSelection(models.Model):
     def get_absolute_url(self):
         return reverse("event_selection_detail", kwargs={"pk": self.pk})
 
+
+class Odds(models.Model):
+
+    eventselection = models.ForeignKey(EventSelection,on_delete=models.CASCADE)
+    odds_time = models.DateTimeField(auto_now_add=True, auto_now=True)
+    odd = models.DecimalField(decimal_places=3)
+
+    class Meta:
+        verbose_name = _("odds")
+        verbose_name_plural = _("odds")
+
+    def __str__(self):
+        return self.odds
+
+    def get_absolute_url(self):
+        return reverse("odds_detail", kwargs={"pk": self.pk})
+
+
